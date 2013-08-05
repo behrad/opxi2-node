@@ -1,0 +1,29 @@
+{
+    "name": "opxi2node",
+    "version": "0.0.2",
+    "description": "Opxi2 Nodejs Messaging Core Bootstrapper",
+    "author": "Behrad",
+    "license": "BSD",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/behrad/opxi2node.git"
+    },
+    "main": "opxi2.js",
+    "directories": {
+        "test": "test"
+    },
+    "dependencies": {
+        "async": "~0.2.8",
+        "handlebars": "~1.0.12",
+        "kue": "~0.4.0",
+        "nano": "~3.3.8",
+        "redis": "~0.7.2",
+        "request": "~2.22.0",
+        "zotonic": "https://github.com/behrad/zotonicjs/tarball/master"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "preinstall": "./preinstall",
+        "test": "node -e \"require( 'opxi2-node' )\" && exit 1"
+    }
+}

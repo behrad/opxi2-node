@@ -1,0 +1,8 @@
+{ "env": {
+    "default": {
+        "db":"http://admin:admin@192.168.254.113:5984/opxi2_db"
+    },
+    "ict": {
+        "db":"http://admin2:36987xing@172.16.12.34:5984/opxi2_logdb"
+    }
+}}

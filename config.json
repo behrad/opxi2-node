@@ -1,0 +1,109 @@
+{
+    "core":{
+        "concurrency": 20,
+        "routes": {
+            "outbound": "^(sms|voice|fax)\\+(\\d+)*@.*",
+            "inbound": "^info@"
+        }
+    },
+    "redis":{
+        "host": "192.168.254.113",
+        "port": 6379
+    },
+    "couchdb":{
+        "host": "192.168.254.113",
+        "port": 5984,
+        "log_db": "opxi2_db",
+	    "user": "admin",
+	    "pass": "admin"
+    },
+    "tine":{
+        "host": "192.168.254.107",
+        "user": "admin",
+        "pass": "admin",
+	    "urlPrefix": "tine20",
+        "fields": {
+            "cc_sms_service_enable": "59f0e2a11ab2f69dec02b48a0a42228fc47a33a8",
+            "cc_fax_service_enable": "59f0e2a11ab2f69dec02b48a0a42228fc47a33a8",
+            "supervisors_group": "3acf6043a2ec29fd23fe145c579d540d8d0dce3a"
+        }
+    },
+    "zotonic":{
+        "host": "192.168.254.113:8000",
+        "user": "admin",
+        "pass": "admin"
+    },
+    "campaigns": {
+        "enabled": true
+    },
+    "sms": {
+        "outbound": {
+            "job_name": "send-sms",
+            "notify_job_name": "sms-send-notify",
+            "delivery_job_name": "sms-delivery-notify",
+            "status_poll_timeout": 3000,
+            "status_poll_interval": 86400000 /* 24 Hrs */
+        },
+        "inbound": {
+            "job_name": "sms-receive-notify",
+            "poll_timeout": 5000
+        },
+        "adp": {
+            "sql":{
+                "host": "192.168.254.107",
+                "user": "sa2",
+                "password": "mehr86",
+                "insecureAuth": true, /*for mysql 4.1" */
+                "database": "easysms2101"
+            },
+            "src_number": "9820002101"
+        }
+    },
+    "voice": {
+        "outbound": {
+            "gateways": [
+                {
+                    "name": "",
+                    "dial_prefix": ""
+                }
+            ],
+            "fs_host": "217.218.190.206",
+            "fs_port": 8021,
+            "fs_secret": "ClueCon",
+            "concurrency": 50,
+            "job_name": "send-voice",
+            "notify_job_name": "voice-send-notify",
+            "delivery_job_name": "voice-delivery-notify"
+        },
+        "inbound": {
+            "job_name": "voice-receive-notify"
+        }
+    },
+    "email": {
+        "outbound": {
+            "job_name": "send-email",
+            "notify_job_name": "email-send-notify",
+            "delivery_job_name": "email-delivery-notify"
+        },
+        "inbound": {
+            "job_name": "email-receive-notify"
+        }
+    },
+    "delivery": {
+        "by_sql": {
+            "host": "2.188.2.13",
+            "user": "SMS",
+            "pass": "SMS@1391",
+            "database": "Mobile"
+        }
+    },
+    "atm": {
+        "db":{
+            "host": ""
+        },
+        "query_job_name": "iran-argham-query"
+    },
+    "uuid": {
+        "host": "192.168.254.113"
+    }
+}
