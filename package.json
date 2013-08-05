@@ -6,7 +6,7 @@
     "license": "BSD",
     "repository": {
         "type": "git",
-        "url": "https://github.com/behrad/opxi2node.git"
+        "url": "https://github.com/behrad/opxi2-node.git"
     },
     "main": "opxi2.js",
     "directories": {
