@@ -19,11 +19,13 @@
         "nano": "~3.3.8",
         "redis": "~0.7.2",
         "request": "~2.22.0",
+        "bignum": "latest",
+        "emiflake": "git://github.com/tomondev/emiflake.git",
         "zotonic": "https://github.com/behrad/zotonicjs/tarball/master"
     },
     "devDependencies": {},
     "scripts": {
         "preinstall": "./preinstall",
-        "test": "node -e \"require( 'opxi2-node' )\" && exit 1"
+        "test": "node -e \"require( 'opxi2node' )\" && exit 1"
     }
 }

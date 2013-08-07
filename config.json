@@ -42,7 +42,7 @@
             "notify_job_name": "sms-send-notify",
             "delivery_job_name": "sms-delivery-notify",
             "status_poll_timeout": 3000,
-            "status_poll_interval": 86400000 /* 24 Hrs */
+            "status_poll_interval": 86400000
         },
         "inbound": {
             "job_name": "sms-receive-notify",
@@ -53,7 +53,7 @@
                 "host": "192.168.254.107",
                 "user": "sa2",
                 "password": "mehr86",
-                "insecureAuth": true, /*for mysql 4.1" */
+                "insecureAuth": true,
                 "database": "easysms2101"
             },
             "src_number": "9820002101"

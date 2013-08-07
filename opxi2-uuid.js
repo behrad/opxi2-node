@@ -2,6 +2,13 @@
     var http = require( 'http' );
     var req = require( 'request' );
     var CONFIG = require( './config.json' );
+    var emiFlake = null;
+    try{
+        emiFlake = require( 'emiflake' );
+        var bignum = require( 'bignum' );
+    } catch( e ){
+        console.warn( "Emiflake not installed: ", e );
+    }
 
     var get_uuid = function( cb, service ) {
         if( service == 'couchdb' ) {
@@ -19,6 +26,17 @@
     };
 
     var get_uuid_def = function( cb ) {
+        if( emiFlake ) {
+            var flake = new emiFlake(new Buffer([0x11]),
+                 /*machineNumberLength:*/8,
+                 /*sequenceNumberLength:*/16,
+                 /*timestampLength:*/40,
+                 /*timestampOffset:*/(2013-1970)*365*24*60*60*1000);
+            return flake.generate( function( id ) {
+                var uuid = toBase62(bignum.fromBuffer(id));
+                cb && cb( uuid );
+            });
+        }
         return getSnowflakeId( function( decimalId ) {
             cb && cb( toBase62( decimalId ) );
         });
