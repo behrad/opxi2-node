@@ -1,12 +1,12 @@
 #!/bin/sh
-## 
-##  Redhat / Linux / LSB
+##
+## Redhat / Linux / LSB
 ##
 # chkconfig:   345 80 20
 # description: Startup script for Express / Node.js application with the \
 ##              forever module.
 ##
-##  A modification of https://gist.github.com/1339289
+## A modification of https://gist.github.com/1339289
 ##
 ## This is free software; you may redistribute it and/or modify
 ## it under the terms of the GNU General Public License as
@@ -28,11 +28,13 @@
 ################################################################################
 ################################################################################
 
-DESC="node-soap"
-NAME="soap.js"
-DIR="/opt/opxi2"
+DESC="Opxi2"
+NAME="Web Console"
+DIR="/opt/opxi2/node_modules/opxi2node/bin"
+SCRIPT_NAME="kue-console"
+SCRIPT_FILE="kue-console.js"
 FOREVER_DIR="/var/run/forever"
-LOGFILE=/var/log/$DESC.log
+LOGDIR=/var/log/opxi2
 LOCKFILE=`basename $0 .sh`
 export NODE_ENV=${NODE_ENV:="production"}
 
@@ -50,6 +52,10 @@ export PATH=$HOME/local/bin:${PATH:=}
 export MANPATH=$HOME/local/man:${MANPATH:=}
 export LD_LIBRARY_PATH=$HOME/local/lib:${LD_LIBRARY_PATH:=}
 
+if [ ! -d "${LOGDIR}" ]; then
+    mkdir ${LOGDIR}
+    chmod a+rw ${LOGDIR}
+fi
 
 ################################################################################
 ################################################################################
@@ -61,17 +67,19 @@ export LD_LIBRARY_PATH=$HOME/local/lib:${LD_LIBRARY_PATH:=}
 
 
 running() {
-    forever list 2>/dev/null | grep ${NAME} 2>&1 >/dev/null
+    forever list 2>/dev/null | grep ${SCRIPT_FILE} 2>&1  >/dev/null
     return $?
 }
 
 start_server() {
-    forever start -a -l ${LOGFILE} -p ${FOREVER_DIR} --sourceDir ${DIR}/${DESC} ${NAME} 2>&1 >/dev/null
+    forever start -a -w -p ${FOREVER_DIR} -l ${LOGDIR}/${SCRIPT_NAME}.log --sourceDir ${DIR} ${SCRIPT_FILE} 2>&1 >/dev/null
+    forever start -a -l ${LOGDIR}/forever-webui.log /usr/lib/node_modules/forever-webui/app.js 2>&1 >/dev/null
+    forever list
     return $?
 }
 
 stop_server() {
-    forever stop ${NAME} 2>&1 >/dev/null
+    forever stop ${SCRIPT_FILE} 2>&1 >/dev/null
     return $?
 }
 
@@ -108,7 +116,7 @@ log() {
   STRING=$1
   arg2=$2
   mode="${arg2:=success}"
-  
+
   echo -n "$STRING "
   if [ "${RHGB_STARTED:-}" != "" -a -w /etc/rhgb/temp/rhgb-console ]; then
     echo -n "$STRING " > /etc/rhgb/temp/rhgb-console

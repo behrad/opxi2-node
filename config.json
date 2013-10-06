@@ -1,6 +1,12 @@
 {
     "core":{
         "concurrency": 20,
+        "job_promotion": 2000,
+        "kue_console": {
+            "user": "admin",
+            "pass": "opxi2",
+            "port": 3000
+        },
         "routes": {
             "outbound": "^(sms|voice|fax)\\+(\\d+)*@.*",
             "inbound": "^info@"
@@ -22,9 +28,10 @@
         "user": "admin",
         "pass": "admin",
 	    "urlPrefix": "tine20",
+	    "concurrency": 3000,
         "fields": {
-            "cc_sms_service_enable": "59f0e2a11ab2f69dec02b48a0a42228fc47a33a8",
-            "cc_fax_service_enable": "59f0e2a11ab2f69dec02b48a0a42228fc47a33a8",
+            "cc_sms_service_enabled": "59f0e2a11ab2f69dec02b48a0a42228fc47a33a8",
+            "cc_fax_service_enabled": "59f0e2a11ab2f69dec02b48a0a42228fc47a33a8",
             "supervisors_group": "3acf6043a2ec29fd23fe145c579d540d8d0dce3a"
         }
     },
@@ -50,10 +57,9 @@
         },
         "adp": {
             "sql":{
-                "host": "192.168.254.107",
+                "host": "192.168.128.49",
                 "user": "sa2",
                 "password": "mehr86",
-                "insecureAuth": true,
                 "database": "easysms2101"
             },
             "src_number": "9820002101"
@@ -99,8 +105,14 @@
     },
     "atm": {
         "db":{
-            "host": ""
+            "host": "10.100.0.155",
+            "user": "sms",
+            "pass": "sms",
+            "db_name": "sms"
         },
+        "poll_window": 60,
+        "poll_interval": 60,
+        "event_job_name": "atm_device_event",
         "query_job_name": "iran-argham-query"
     },
     "uuid": {

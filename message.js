@@ -77,9 +77,6 @@
         if( !this.from ) {
             this.from = this.created_by;
         }
-        if( id ) {
-            this.id = id;
-        }
         return this;
     };
 
@@ -110,15 +107,19 @@
                     if( media ) {
                         var file_name = media.original_filename.replace( /^_/, '' );
                         var voice_url = media.medium_url.split( "id" )[0] + media.filename;
+                        self.voice_url = voice_url;
+                        if( self.dont_attach ) {
+                            return clbk && clbk( null, self );
+                        }
                         var tmp_file_path = path.join( os.tmpdir(), file_name );
                         var tmp_file = fs.createWriteStream( tmp_file_path );
                         request.get( voice_url ).on( 'end', function() {
                             fs.createReadStream( tmp_file_path ).on( 'end', function() {
-                                fs.unlink( tmp_file_path, function( err ){
-                                    console.log( tmp_file_path + " attached then deleted! ", err );
-                                });
+                                fs.unlink( tmp_file_path, function( err ){});
                             }).pipe(
-                                opxi2.db.attachment.insert( self._id, file_name, null, media.mime, { rev: rev }, clbk )
+                                opxi2.db.attachment.insert( self._id, file_name, null, media.mime, { rev: rev }, function( err ){
+                                    clbk && clbk( err, self );
+                                })
                             );
                             /*fs.readFile(tmp_file_path, function(err, data) {
                               if (!err) {
@@ -140,10 +141,12 @@
                     if( self.is_sms() ) {
                         content = self.filterContent( content );
                     }
+                    self.content = content;
+                    self.subject = subject;
                     opxi2.db.updateLog( "log/inplace", self._id, {
                         content: content,
                         subject: subject
-                        }, clbk
+                        }, function(err, resp){ clbk && clbk( err, self );}
                     );
                 }
             });
@@ -161,7 +164,7 @@
     };
 
     Message.prototype.filterContent = function( content ) {
-        return content && content.replace( /<br\/*>/g, '\n' ).replace( /<[^>]+>/g, '' );
+        return content && content.replace( /<br\/*>/g, '\n' ).replace( /<\/p>/g, '\n' ).replace( /<[^>]+>/g, '').trim();
     };
 
     Message.prototype.as_log = function( action, log, index ) {

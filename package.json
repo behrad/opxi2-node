@@ -8,6 +8,7 @@
         "type": "git",
         "url": "https://github.com/behrad/opxi2-node.git"
     },
+    "bin": { "opxi2console": "bin/opxi2console" },
     "main": "opxi2.js",
     "directories": {
         "test": "test"
@@ -15,12 +16,13 @@
     "dependencies": {
         "async": "~0.2.8",
         "handlebars": "~1.0.12",
-        "kue": "~0.4.0",
+        "kue": "~0.6.2",
         "nano": "~3.3.8",
         "redis": "~0.7.2",
+        "express": "*",
         "request": "~2.22.0",
         "bignum": "latest",
-        "emiflake": "git://github.com/tomondev/emiflake.git",
+        "emiflake": "https://github.com/tomondev/emiflake/tarball/master",
         "zotonic": "https://github.com/behrad/zotonicjs/tarball/master"
     },
     "devDependencies": {},
